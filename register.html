@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - App de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Cadastro</h1>
+            <form id="register-form">
+                <div class="input-group">
+                    <label for="fullname">Nome Completo</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Seu nome completo" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">E-mail Institucional</label>
+                    <input type="email" id="email" name="email" placeholder="seuemail@instituicao.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="course">Curso</label>
+                    <input type="text" id="course" name="course" placeholder="Seu curso" required>
+                </div>
+                <div class="input-group">
+                    <label for="semester">Período/Semestre</label>
+                    <input type="number" id="semester" name="semester" min="1" max="12" placeholder="Seu semestre" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Crie uma senha" required>
+                </div>
+                <button type="submit" class="btn">Cadastrar</button>
+            </form>
+            <div class="links">
+                <a href="login.html">Já tem uma conta? Faça login</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
