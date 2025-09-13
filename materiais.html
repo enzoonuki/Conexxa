@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materiais - StudyApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/materiais.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Materiais de Estudo</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">João Silva</span>
+                <span class="user-course">Engenharia de Software - 5º Semestre</span>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="materials-container">
+        <!-- Controls Section -->
+        <div class="materials-controls">
+            <div class="controls-left">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-materials" placeholder="Buscar materiais...">
+                </div>
+                <div class="filter-group">
+                    <select id="group-filter">
+                        <option value="">Todos os grupos</option>
+                        <option value="algoritmos">Algoritmos e Estruturas</option>
+                        <option value="banco-dados">Banco de Dados</option>
+                        <option value="engenharia-software">Engenharia de Software</option>
+                        <option value="redes">Redes de Computadores</option>
+                    </select>
+                </div>
+                <div class="filter-type">
+                    <select id="type-filter">
+                        <option value="">Todos os tipos</option>
+                        <option value="pdf">PDF</option>
+                        <option value="video">Vídeo</option>
+                        <option value="link">Link Externo</option>
+                        <option value="slide">Slides</option>
+                        <option value="documento">Documento</option>
+                        <option value="imagem">Imagem</option>
+                    </select>
+                </div>
+            </div>
+            <div class="controls-right">
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="toggleView('grid')" data-view="grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="view-btn" onclick="toggleView('list')" data-view="list">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+                <button class="add-material-btn" onclick="openMaterialModal()">
+                    <i class="fas fa-plus"></i>
+                    Adicionar Material
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="materials-summary">
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="summary-info">
+                    <span class="summary-number" id="total-materials">24</span>
+                    <span class="summary-label">Total de Materiais</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="summary-info">
+                    <span class="summary-number" id="total-groups">4</span>
+                    <span class="summary-label">Grupos Ativos</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="summary-info">
+                    <span class="summary-number" id="downloads-month">156</span>
+                    <span class="summary-label">Downloads este Mês</span>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="summary-info">
+                    <span class="summary-number" id="recent-materials">8</span>
+                    <span class="summary-label">Adicionados Hoje</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materials Grid/List -->
+        <div class="materials-content" id="materials-grid">
+            <!-- Material Item 1 -->
+            <div class="material-item" data-group="algoritmos" data-type="pdf">
+                <div class="material-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Algoritmos de Ordenação</h3>
+                    <p class="material-description">Guia completo sobre algoritmos de ordenação: Bubble Sort, Quick Sort, Merge Sort</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Algoritmos e Estruturas
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            15/03/2024
+                        </span>
+                        <span class="material-size">
+                            <i class="fas fa-file"></i>
+                            2.5 MB
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Maria Santos
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn download-btn" onclick="downloadMaterial(1)">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="action-btn view-btn" onclick="viewMaterial(1)">
+                        <i class="fas fa-eye"></i>
+                        Visualizar
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(1)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Item 2 -->
+            <div class="material-item" data-group="banco-dados" data-type="video">
+                <div class="material-icon">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Normalização de Banco de Dados</h3>
+                    <p class="material-description">Videoaula explicando as formas normais e processo de normalização</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Banco de Dados
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            14/03/2024
+                        </span>
+                        <span class="material-duration">
+                            <i class="fas fa-clock"></i>
+                            45 min
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Prof. Carlos Lima
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn play-btn" onclick="playVideo(2)">
+                        <i class="fas fa-play"></i>
+                        Assistir
+                    </button>
+                    <button class="action-btn share-btn" onclick="shareMaterial(2)">
+                        <i class="fas fa-share"></i>
+                        Compartilhar
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(2)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Item 3 -->
+            <div class="material-item" data-group="engenharia-software" data-type="link">
+                <div class="material-icon">
+                    <i class="fas fa-external-link-alt"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Documentação React.js</h3>
+                    <p class="material-description">Link para documentação oficial do React.js com exemplos práticos</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Engenharia de Software
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            13/03/2024
+                        </span>
+                        <span class="material-type">
+                            <i class="fas fa-link"></i>
+                            Link Externo
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Ana Costa
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn link-btn" onclick="openLink(3)">
+                        <i class="fas fa-external-link-alt"></i>
+                        Abrir Link
+                    </button>
+                    <button class="action-btn copy-btn" onclick="copyLink(3)">
+                        <i class="fas fa-copy"></i>
+                        Copiar
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(3)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Item 4 -->
+            <div class="material-item" data-group="redes" data-type="slide">
+                <div class="material-icon">
+                    <i class="fas fa-file-powerpoint"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Protocolos de Rede TCP/IP</h3>
+                    <p class="material-description">Apresentação sobre protocolos TCP/IP, camadas OSI e roteamento</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Redes de Computadores
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            12/03/2024
+                        </span>
+                        <span class="material-size">
+                            <i class="fas fa-file"></i>
+                            8.2 MB
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Pedro Oliveira
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn download-btn" onclick="downloadMaterial(4)">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="action-btn view-btn" onclick="viewMaterial(4)">
+                        <i class="fas fa-eye"></i>
+                        Visualizar
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(4)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Item 5 -->
+            <div class="material-item" data-group="algoritmos" data-type="documento">
+                <div class="material-icon">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Exercícios de Estruturas de Dados</h3>
+                    <p class="material-description">Lista de exercícios sobre árvores, grafos e estruturas lineares</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Algoritmos e Estruturas
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            11/03/2024
+                        </span>
+                        <span class="material-size">
+                            <i class="fas fa-file"></i>
+                            1.8 MB
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Lucas Ferreira
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn download-btn" onclick="downloadMaterial(5)">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="action-btn view-btn" onclick="viewMaterial(5)">
+                        <i class="fas fa-eye"></i>
+                        Visualizar
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(5)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Material Item 6 -->
+            <div class="material-item" data-group="banco-dados" data-type="imagem">
+                <div class="material-icon">
+                    <i class="fas fa-image"></i>
+                </div>
+                <div class="material-info">
+                    <h3 class="material-title">Diagrama ER - Sistema Biblioteca</h3>
+                    <p class="material-description">Diagrama entidade-relacionamento para sistema de biblioteca universitária</p>
+                    <div class="material-meta">
+                        <span class="material-group">
+                            <i class="fas fa-users"></i>
+                            Banco de Dados
+                        </span>
+                        <span class="material-date">
+                            <i class="fas fa-calendar"></i>
+                            10/03/2024
+                        </span>
+                        <span class="material-size">
+                            <i class="fas fa-file"></i>
+                            3.1 MB
+                        </span>
+                    </div>
+                    <div class="material-author">
+                        <i class="fas fa-user"></i>
+                        Compartilhado por Carla Mendes
+                    </div>
+                </div>
+                <div class="material-actions">
+                    <button class="action-btn view-btn" onclick="viewMaterial(6)">
+                        <i class="fas fa-eye"></i>
+                        Visualizar
+                    </button>
+                    <button class="action-btn download-btn" onclick="downloadMaterial(6)">
+                        <i class="fas fa-download"></i>
+                        Download
+                    </button>
+                    <button class="action-btn more-btn" onclick="showMaterialOptions(6)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="no-materials" style="display: none;">
+            <i class="fas fa-folder-open"></i>
+            <h3>Nenhum material encontrado</h3>
+            <p>Não há materiais que correspondam aos filtros selecionados.</p>
+        </div>
+    </main>
+
+    <!-- Modal para Adicionar Material -->
+    <div class="modal-overlay" id="material-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Adicionar Novo Material</h2>
+                <button class="close-btn" onclick="closeMaterialModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form class="material-form" id="add-material-form">
+                <div class="form-group">
+                    <label for="material-name">Nome do Material *</label>
+                    <input type="text" id="material-name" name="name" required placeholder="Digite o nome do material">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="material-group">Grupo *</label>
+                        <select id="material-group" name="group" required>
+                            <option value="">Selecione um grupo</option>
+                            <option value="algoritmos">Algoritmos e Estruturas</option>
+                            <option value="banco-dados">Banco de Dados</option>
+                            <option value="engenharia-software">Engenharia de Software</option>
+                            <option value="redes">Redes de Computadores</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="material-type">Tipo de Material *</label>
+                        <select id="material-type" name="type" required onchange="toggleUploadFields()">
+                            <option value="">Selecione o tipo</option>
+                            <option value="pdf">PDF</option>
+                            <option value="video">Vídeo</option>
+                            <option value="link">Link Externo</option>
+                            <option value="slide">Slides</option>
+                            <option value="documento">Documento</option>
+                            <option value="imagem">Imagem</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="material-description">Descrição</label>
+                    <textarea id="material-description" name="description" rows="3" placeholder="Descreva brevemente o conteúdo do material"></textarea>
+                </div>
+
+                <!-- Campo para Upload de Arquivo -->
+                <div class="form-group" id="file-upload-group">
+                    <label for="material-file">Arquivo *</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="material-file" name="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.mp4,.avi">
+                        <div class="file-upload-text">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Clique para selecionar um arquivo ou arraste aqui</p>
+                            <span>Formatos aceitos: PDF, DOC, PPT, JPG, PNG, MP4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Campo para Link Externo -->
+                <div class="form-group" id="link-input-group" style="display: none;">
+                    <label for="material-link">Link *</label>
+                    <input type="url" id="material-link" name="link" placeholder="https://exemplo.com">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeMaterialModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Adicionar Material
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

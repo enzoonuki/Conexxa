@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigos - StudyApp</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/amigos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h1>Meus Amigos</h1>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name">João Silva</span>
+                <span class="user-course">Engenharia de Software - 5º Semestre</span>
+            </div>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="friends-container">
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-header">
+                <h2>Encontrar Amigos</h2>
+                <p>Busque por colegas usando nome ou e-mail institucional</p>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="friend-search" placeholder="Digite o nome ou e-mail do usuário...">
+                <button class="search-btn" onclick="searchFriends()">
+                    <i class="fas fa-search"></i>
+                    Buscar
+                </button>
+            </div>
+            
+            <!-- Search Results -->
+            <div class="search-results" id="search-results" style="display: none;">
+                <h3>Resultados da Busca</h3>
+                <div class="user-list" id="search-user-list">
+                    <!-- Resultados serão inseridos aqui dinamicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Friend Requests Section -->
+        <div class="requests-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-user-plus"></i>
+                    Solicitações Recebidas
+                    <span class="request-count">3</span>
+                </h2>
+            </div>
+            <div class="requests-list">
+                <!-- Request 1 -->
+                <div class="friend-request" data-user-id="101">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Maria+Santos&background=e3f2fd&color=1976d2&size=60" alt="Maria Santos">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="user-info">
+                        <h3 class="user-name">Maria Santos</h3>
+                        <p class="user-course">Ciência da Computação - 4º Semestre</p>
+                        <p class="user-email">maria.santos@unisanta.br</p>
+                        <div class="mutual-friends">
+                            <i class="fas fa-users"></i>
+                            <span>5 amigos em comum</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn" onclick="acceptFriendRequest(101)">
+                            <i class="fas fa-check"></i>
+                            Aceitar
+                        </button>
+                        <button class="decline-btn" onclick="declineFriendRequest(101)">
+                            <i class="fas fa-times"></i>
+                            Recusar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Request 2 -->
+                <div class="friend-request" data-user-id="102">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Carlos+Lima&background=e8f5e8&color=2e7d32&size=60" alt="Carlos Lima">
+                        <div class="online-status offline"></div>
+                    </div>
+                    <div class="user-info">
+                        <h3 class="user-name">Carlos Lima</h3>
+                        <p class="user-course">Engenharia de Software - 6º Semestre</p>
+                        <p class="user-email">carlos.lima@unisanta.br</p>
+                        <div class="mutual-friends">
+                            <i class="fas fa-users"></i>
+                            <span>2 amigos em comum</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn" onclick="acceptFriendRequest(102)">
+                            <i class="fas fa-check"></i>
+                            Aceitar
+                        </button>
+                        <button class="decline-btn" onclick="declineFriendRequest(102)">
+                            <i class="fas fa-times"></i>
+                            Recusar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Request 3 -->
+                <div class="friend-request" data-user-id="103">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Ana+Costa&background=fff3e0&color=f57c00&size=60" alt="Ana Costa">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="user-info">
+                        <h3 class="user-name">Ana Costa</h3>
+                        <p class="user-course">Sistemas de Informação - 3º Semestre</p>
+                        <p class="user-email">ana.costa@unisanta.br</p>
+                        <div class="mutual-friends">
+                            <i class="fas fa-users"></i>
+                            <span>8 amigos em comum</span>
+                        </div>
+                    </div>
+                    <div class="request-actions">
+                        <button class="accept-btn" onclick="acceptFriendRequest(103)">
+                            <i class="fas fa-check"></i>
+                            Aceitar
+                        </button>
+                        <button class="decline-btn" onclick="declineFriendRequest(103)">
+                            <i class="fas fa-times"></i>
+                            Recusar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Friends List Section -->
+        <div class="friends-section">
+            <div class="section-header">
+                <h2>
+                    <i class="fas fa-users"></i>
+                    Meus Amigos
+                    <span class="friends-count">12</span>
+                </h2>
+                <div class="friends-controls">
+                    <div class="view-toggle">
+                        <button class="view-btn active" onclick="toggleFriendsView('grid')" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" onclick="toggleFriendsView('list')" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    <select class="sort-select" onchange="sortFriends(this.value)">
+                        <option value="name">Ordenar por Nome</option>
+                        <option value="course">Ordenar por Curso</option>
+                        <option value="recent">Mais Recentes</option>
+                        <option value="online">Online Primeiro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="friends-grid" id="friends-grid">
+                <!-- Friend 1 -->
+                <div class="friend-card" data-user-id="201" data-course="algoritmos" data-status="online">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Pedro+Oliveira&background=e3f2fd&color=1976d2&size=80" alt="Pedro Oliveira">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Pedro Oliveira</h3>
+                        <p class="friend-course">Engenharia de Software - 5º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                3 grupos em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 2 meses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(201)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(201)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(201)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friend 2 -->
+                <div class="friend-card" data-user-id="202" data-course="banco-dados" data-status="offline">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Lucia+Ferreira&background=e8f5e8&color=2e7d32&size=80" alt="Lucia Ferreira">
+                        <div class="online-status offline"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Lucia Ferreira</h3>
+                        <p class="friend-course">Ciência da Computação - 6º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                2 grupos em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 4 meses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(202)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(202)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(202)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friend 3 -->
+                <div class="friend-card" data-user-id="203" data-course="redes" data-status="online">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Rafael+Mendes&background=fff3e0&color=f57c00&size=80" alt="Rafael Mendes">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Rafael Mendes</h3>
+                        <p class="friend-course">Redes de Computadores - 4º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                1 grupo em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 1 mês
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(203)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(203)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(203)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friend 4 -->
+                <div class="friend-card" data-user-id="204" data-course="engenharia-software" data-status="online">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Carla+Souza&background=f3e5f5&color=7b1fa2&size=80" alt="Carla Souza">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Carla Souza</h3>
+                        <p class="friend-course">Engenharia de Software - 7º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                4 grupos em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 6 meses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(204)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(204)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(204)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friend 5 -->
+                <div class="friend-card" data-user-id="205" data-course="sistemas" data-status="offline">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Bruno+Silva&background=e1f5fe&color=0277bd&size=80" alt="Bruno Silva">
+                        <div class="online-status offline"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Bruno Silva</h3>
+                        <p class="friend-course">Sistemas de Informação - 5º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                2 grupos em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 3 meses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(205)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(205)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(205)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Friend 6 -->
+                <div class="friend-card" data-user-id="206" data-course="algoritmos" data-status="online">
+                    <div class="friend-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Fernanda+Lima&background=fce4ec&color=c2185b&size=80" alt="Fernanda Lima">
+                        <div class="online-status online"></div>
+                    </div>
+                    <div class="friend-info">
+                        <h3 class="friend-name">Fernanda Lima</h3>
+                        <p class="friend-course">Ciência da Computação - 3º Semestre</p>
+                        <div class="friend-stats">
+                            <span class="stat">
+                                <i class="fas fa-users"></i>
+                                5 grupos em comum
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-calendar"></i>
+                                Amigos há 1 semana
+                            </span>
+                        </div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="action-btn message-btn" onclick="sendMessage(206)">
+                            <i class="fas fa-comment"></i>
+                            Mensagem
+                        </button>
+                        <button class="action-btn profile-btn" onclick="viewProfile(206)">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </button>
+                        <button class="action-btn more-btn" onclick="showFriendOptions(206)">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="no-friends" style="display: none;">
+                <i class="fas fa-user-friends"></i>
+                <h3>Nenhum amigo encontrado</h3>
+                <p>Comece adicionando alguns colegas para expandir sua rede de estudos!</p>
+                <button class="add-friends-btn" onclick="focusSearch()">
+                    <i class="fas fa-search"></i>
+                    Buscar Amigos
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal-overlay" id="confirmation-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Confirmar Ação</h2>
+                <button class="close-btn" onclick="closeConfirmationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">Tem certeza que deseja realizar esta ação?</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeConfirmationModal()">Cancelar</button>
+                <button class="btn-primary" id="confirm-action-btn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

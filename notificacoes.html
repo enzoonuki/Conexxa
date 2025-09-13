@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações - App de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/notificacoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <!-- Header com informações do usuário -->
+    <header class="dashboard-header">
+        <div class="user-info">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="user-details">
+                <h2>Notificações</h2>
+                <p>Acompanhe suas atualizações e convites</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">8</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Container principal -->
+    <main class="dashboard-main">
+        <!-- Barra de ações -->
+        <div class="notifications-actions">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterNotifications('all')">
+                    <i class="fas fa-list"></i>
+                    Todas
+                </button>
+                <button class="filter-btn" onclick="filterNotifications('unread')">
+                    <i class="fas fa-circle"></i>
+                    Não Lidas
+                    <span class="unread-count">5</span>
+                </button>
+                <button class="filter-btn" onclick="filterNotifications('read')">
+                    <i class="fas fa-check"></i>
+                    Lidas
+                </button>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="markAllAsRead()">
+                    <i class="fas fa-check-double"></i>
+                    Marcar Todas como Lidas
+                </button>
+                <button class="btn-danger" onclick="clearAllNotifications()">
+                    <i class="fas fa-trash"></i>
+                    Limpar Todas
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de notificações -->
+        <div class="notifications-container">
+            <div class="notifications-list">
+                <!-- Notificação 1 - Nova e não lida -->
+                <div class="notification-item unread new" data-id="1" data-status="unread">
+                    <div class="notification-avatar">
+                        <img src="https://via.placeholder.com/40/2575fc/ffffff?text=MS" alt="Maria Silva">
+                        <span class="notification-badge-new">Nova</span>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Convite para Grupo</h4>
+                            <span class="notification-time">2 min atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            <strong>Maria Silva</strong> convidou você para participar do grupo <strong>"Algoritmos Avançados"</strong>
+                        </p>
+                        <div class="notification-actions">
+                            <button class="btn-accept" onclick="acceptInvite(1)">Aceitar</button>
+                            <button class="btn-decline" onclick="declineInvite(1)">Recusar</button>
+                        </div>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsRead(1)" title="Marcar como lida">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(1)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 2 - Nova mensagem -->
+                <div class="notification-item unread new" data-id="2" data-status="unread">
+                    <div class="notification-avatar">
+                        <img src="https://via.placeholder.com/40/28a745/ffffff?text=PS" alt="Pedro Santos">
+                        <span class="notification-badge-new">Nova</span>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Nova Mensagem</h4>
+                            <span class="notification-time">15 min atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            <strong>Pedro Santos</strong> enviou uma mensagem no grupo <strong>"Banco de Dados"</strong>: "Pessoal, encontrei um material muito bom sobre normalização..."
+                        </p>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsRead(2)" title="Marcar como lida">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(2)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 3 - Material compartilhado -->
+                <div class="notification-item unread" data-id="3" data-status="unread">
+                    <div class="notification-avatar">
+                        <i class="fas fa-file-pdf notification-icon material"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Material Compartilhado</h4>
+                            <span class="notification-time">1 hora atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            <strong>Ana Costa</strong> compartilhou o arquivo <strong>"Exercícios de Cálculo II.pdf"</strong> no grupo <strong>"Cálculo II"</strong>
+                        </p>
+                        <div class="notification-actions">
+                            <button class="btn-view" onclick="viewMaterial(3)">Ver Material</button>
+                        </div>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsRead(3)" title="Marcar como lida">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(3)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 4 - Lembrete de atividade -->
+                <div class="notification-item unread" data-id="4" data-status="unread">
+                    <div class="notification-avatar">
+                        <i class="fas fa-calendar notification-icon reminder"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Lembrete de Atividade</h4>
+                            <span class="notification-time">2 horas atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            Lembrete: A atividade <strong>"Implementação de Árvore Binária"</strong> vence amanhã (15/09/2024)
+                        </p>
+                        <div class="notification-actions">
+                            <button class="btn-view" onclick="viewActivity(4)">Ver Atividade</button>
+                        </div>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsRead(4)" title="Marcar como lida">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(4)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 5 - Novo membro -->
+                <div class="notification-item unread" data-id="5" data-status="unread">
+                    <div class="notification-avatar">
+                        <img src="https://via.placeholder.com/40/ffc107/000000?text=LC" alt="Lucas Costa">
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Novo Membro</h4>
+                            <span class="notification-time">3 horas atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            <strong>Lucas Costa</strong> ingressou no grupo <strong>"Projeto Integrador"</strong>
+                        </p>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsRead(5)" title="Marcar como lida">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(5)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 6 - Lida -->
+                <div class="notification-item read" data-id="6" data-status="read">
+                    <div class="notification-avatar">
+                        <img src="https://via.placeholder.com/40/dc3545/ffffff?text=FS" alt="Fernando Silva">
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Comentário em Atividade</h4>
+                            <span class="notification-time">1 dia atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            <strong>Fernando Silva</strong> comentou na sua atividade <strong>"Prova de Banco de Dados"</strong>: "Boa sorte na prova!"
+                        </p>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsUnread(6)" title="Marcar como não lida">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(6)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 7 - Lida -->
+                <div class="notification-item read" data-id="7" data-status="read">
+                    <div class="notification-avatar">
+                        <i class="fas fa-users notification-icon group"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Grupo Criado</h4>
+                            <span class="notification-time">2 dias atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            Você criou com sucesso o grupo <strong>"Estatística Aplicada"</strong>. Convide seus colegas para participar!
+                        </p>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsUnread(7)" title="Marcar como não lida">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(7)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notificação 8 - Lida -->
+                <div class="notification-item read" data-id="8" data-status="read">
+                    <div class="notification-avatar">
+                        <i class="fas fa-graduation-cap notification-icon system"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-header">
+                            <h4>Bem-vindo!</h4>
+                            <span class="notification-time">1 semana atrás</span>
+                        </div>
+                        <p class="notification-text">
+                            Bem-vindo ao App de Estudos! Complete seu perfil e comece a participar de grupos de estudo.
+                        </p>
+                        <div class="notification-actions">
+                            <button class="btn-view" onclick="completeProfile()">Completar Perfil</button>
+                        </div>
+                    </div>
+                    <div class="notification-controls">
+                        <button class="control-btn" onclick="markAsUnread(8)" title="Marcar como não lida">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="control-btn" onclick="deleteNotification(8)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensagem quando não há notificações -->
+            <div class="no-notifications" style="display: none;">
+                <div class="no-notifications-content">
+                    <i class="fas fa-bell-slash"></i>
+                    <h3>Nenhuma notificação encontrada</h3>
+                    <p>Você não tem notificações no momento.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

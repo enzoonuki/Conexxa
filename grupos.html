@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos - App de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <!-- Header com informações do usuário -->
+    <header class="dashboard-header">
+        <div class="user-info">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="user-details">
+                <h2>Grupos de Estudo</h2>
+                <p>Gerencie seus grupos e participe de novos</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Container principal -->
+    <main class="dashboard-main">
+        <!-- Navegação por tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="showTab('meus-grupos')">
+                <i class="fas fa-users"></i>
+                Meus Grupos
+            </button>
+            <button class="tab-btn" onclick="showTab('ingressar')">
+                <i class="fas fa-search"></i>
+                Ingressar em Grupo
+            </button>
+            <button class="tab-btn" onclick="showTab('criar')">
+                <i class="fas fa-plus"></i>
+                Criar Grupo
+            </button>
+        </div>
+
+        <!-- Tab: Meus Grupos -->
+        <div id="meus-grupos" class="tab-content active">
+            <div class="section-header">
+                <h3>Seus Grupos de Estudo</h3>
+                <span class="group-count">4 grupos ativos</span>
+            </div>
+            
+            <div class="groups-grid">
+                <div class="group-card">
+                    <div class="group-header">
+                        <h4>Algoritmos e Estruturas de Dados</h4>
+                        <span class="group-type">Específico - 3º Semestre</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 8/15 membros</p>
+                        <p><i class="fas fa-calendar"></i> Criado em 15/08/2024</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-secondary" onclick="viewGroup('algoritmos')">Ver Grupo</button>
+                        <button class="btn-danger" onclick="leaveGroup('algoritmos')">Sair</button>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h4>Banco de Dados</h4>
+                        <span class="group-type">Geral</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 12/20 membros</p>
+                        <p><i class="fas fa-calendar"></i> Criado em 10/07/2024</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-secondary" onclick="viewGroup('banco')">Ver Grupo</button>
+                        <button class="btn-danger" onclick="leaveGroup('banco')">Sair</button>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h4>Cálculo II</h4>
+                        <span class="group-type">Específico - 2º Semestre</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 6/10 membros</p>
+                        <p><i class="fas fa-calendar"></i> Criado em 20/08/2024</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-secondary" onclick="viewGroup('calculo')">Ver Grupo</button>
+                        <button class="btn-danger" onclick="leaveGroup('calculo')">Sair</button>
+                    </div>
+                </div>
+
+                <div class="group-card">
+                    <div class="group-header">
+                        <h4>Projeto Integrador</h4>
+                        <span class="group-type">Específico - 5º Semestre</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 4/8 membros</p>
+                        <p><i class="fas fa-calendar"></i> Criado em 01/09/2024</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-secondary" onclick="viewGroup('projeto')">Ver Grupo</button>
+                        <button class="btn-danger" onclick="leaveGroup('projeto')">Sair</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Ingressar em Grupo -->
+        <div id="ingressar" class="tab-content">
+            <div class="section-header">
+                <h3>Grupos Disponíveis</h3>
+                <div class="search-container">
+                    <input type="text" id="search-groups" placeholder="Buscar grupos...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="filters">
+                <select id="filter-course">
+                    <option value="">Todos os cursos</option>
+                    <option value="engenharia-software">Engenharia de Software</option>
+                    <option value="ciencia-computacao">Ciência da Computação</option>
+                    <option value="sistemas-informacao">Sistemas de Informação</option>
+                </select>
+                <select id="filter-semester">
+                    <option value="">Todos os semestres</option>
+                    <option value="1">1º Semestre</option>
+                    <option value="2">2º Semestre</option>
+                    <option value="3">3º Semestre</option>
+                    <option value="4">4º Semestre</option>
+                    <option value="5">5º Semestre</option>
+                </select>
+            </div>
+            
+            <div class="groups-grid">
+                <div class="group-card available">
+                    <div class="group-header">
+                        <h4>Programação Orientada a Objetos</h4>
+                        <span class="group-type">Específico - 3º Semestre</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 5/12 membros</p>
+                        <p><i class="fas fa-user"></i> Criado por Maria Silva</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-primary" onclick="joinGroup('poo')">Ingressar</button>
+                    </div>
+                </div>
+
+                <div class="group-card available">
+                    <div class="group-header">
+                        <h4>Redes de Computadores</h4>
+                        <span class="group-type">Geral</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Ciência da Computação</p>
+                        <p><i class="fas fa-users"></i> 8/15 membros</p>
+                        <p><i class="fas fa-user"></i> Criado por Pedro Santos</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-primary" onclick="joinGroup('redes')">Ingressar</button>
+                    </div>
+                </div>
+
+                <div class="group-card available">
+                    <div class="group-header">
+                        <h4>Estatística Aplicada</h4>
+                        <span class="group-type">Específico - 4º Semestre</span>
+                    </div>
+                    <div class="group-info">
+                        <p><i class="fas fa-graduation-cap"></i> Engenharia de Software</p>
+                        <p><i class="fas fa-users"></i> 3/10 membros</p>
+                        <p><i class="fas fa-user"></i> Criado por Ana Costa</p>
+                    </div>
+                    <div class="group-actions">
+                        <button class="btn-primary" onclick="joinGroup('estatistica')">Ingressar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Criar Grupo -->
+        <div id="criar" class="tab-content">
+            <div class="section-header">
+                <h3>Criar Novo Grupo</h3>
+                <p>Preencha as informações para criar seu grupo de estudos</p>
+            </div>
+
+            <form id="create-group-form" class="create-group-form">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="group-name">Nome do Grupo</label>
+                        <input type="text" id="group-name" name="groupName" placeholder="Ex: Algoritmos Avançados" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="group-course">Curso</label>
+                        <select id="group-course" name="course" required>
+                            <option value="">Selecione o curso</option>
+                            <option value="engenharia-software">Engenharia de Software</option>
+                            <option value="ciencia-computacao">Ciência da Computação</option>
+                            <option value="sistemas-informacao">Sistemas de Informação</option>
+                            <option value="analise-sistemas">Análise e Desenvolvimento de Sistemas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="max-members">Número Máximo de Integrantes</label>
+                        <input type="number" id="max-members" name="maxMembers" min="2" max="30" value="10" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="group-type">Tipo de Grupo</label>
+                        <select id="group-type" name="groupType" onchange="toggleSemesterField()" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="geral">Geral (para todo o curso)</option>
+                            <option value="especifico">Específico para semestre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" id="semester-row" style="display: none;">
+                    <div class="input-group">
+                        <label for="target-semester">Semestre Alvo</label>
+                        <select id="target-semester" name="targetSemester">
+                            <option value="">Selecione o semestre</option>
+                            <option value="1">1º Semestre</option>
+                            <option value="2">2º Semestre</option>
+                            <option value="3">3º Semestre</option>
+                            <option value="4">4º Semestre</option>
+                            <option value="5">5º Semestre</option>
+                            <option value="6">6º Semestre</option>
+                            <option value="7">7º Semestre</option>
+                            <option value="8">8º Semestre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="group-description">Descrição do Grupo (Opcional)</label>
+                    <textarea id="group-description" name="description" placeholder="Descreva o objetivo e foco do grupo..." rows="3"></textarea>
+                </div>
+
+                <div class="members-section">
+                    <h4>Adicionar Membros Iniciais (Opcional)</h4>
+                    <div class="add-member-container">
+                        <input type="text" id="member-search" placeholder="Buscar por nome ou email...">
+                        <button type="button" onclick="searchMembers()">Buscar</button>
+                    </div>
+                    <div id="selected-members" class="selected-members">
+                        <!-- Membros selecionados aparecerão aqui -->
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="clearForm()">Limpar</button>
+                    <button type="submit" class="btn-primary">Criar Grupo</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividades - App de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/atividades.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <!-- Header com informações do usuário -->
+    <header class="dashboard-header">
+        <div class="user-info">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="user-details">
+                <h2>Atividades</h2>
+                <p>Gerencie suas tarefas e prazos acadêmicos</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Container principal -->
+    <main class="dashboard-main">
+        <!-- Barra de ações -->
+        <div class="actions-bar">
+            <div class="filters-section">
+                <select id="filter-status">
+                    <option value="">Todos os status</option>
+                    <option value="por-fazer">Por fazer</option>
+                    <option value="em-andamento">Em andamento</option>
+                    <option value="concluida">Concluída</option>
+                </select>
+                <select id="filter-type">
+                    <option value="">Todos os tipos</option>
+                    <option value="prova">Prova</option>
+                    <option value="trabalho">Trabalho</option>
+                    <option value="leitura">Leitura</option>
+                    <option value="projeto">Projeto</option>
+                    <option value="apresentacao">Apresentação</option>
+                </select>
+                <select id="filter-group">
+                    <option value="">Todos os grupos</option>
+                    <option value="algoritmos">Algoritmos</option>
+                    <option value="banco">Banco de Dados</option>
+                    <option value="calculo">Cálculo II</option>
+                    <option value="projeto">Projeto Integrador</option>
+                </select>
+            </div>
+            <button class="btn-primary" onclick="openAddActivityModal()">
+                <i class="fas fa-plus"></i>
+                Nova Atividade
+            </button>
+        </div>
+
+        <!-- Resumo das atividades -->
+        <div class="activities-summary">
+            <div class="summary-card pending">
+                <div class="summary-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="summary-info">
+                    <h3 id="pending-count">5</h3>
+                    <p>Pendentes</p>
+                </div>
+            </div>
+            <div class="summary-card in-progress">
+                <div class="summary-icon">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="summary-info">
+                    <h3 id="progress-count">3</h3>
+                    <p>Em Andamento</p>
+                </div>
+            </div>
+            <div class="summary-card completed">
+                <div class="summary-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="summary-info">
+                    <h3 id="completed-count">12</h3>
+                    <p>Concluídas</p>
+                </div>
+            </div>
+            <div class="summary-card urgent">
+                <div class="summary-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="summary-info">
+                    <h3 id="urgent-count">2</h3>
+                    <p>Urgentes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de atividades -->
+        <div class="activities-container">
+            <div class="section-header">
+                <h3>Suas Atividades</h3>
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="toggleView('list')">
+                        <i class="fas fa-list"></i>
+                    </button>
+                    <button class="view-btn" onclick="toggleView('grid')">
+                        <i class="fas fa-th"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="activities-list" class="activities-list">
+                <!-- Atividade 1 -->
+                <div class="activity-item" data-status="por-fazer" data-type="trabalho" data-group="algoritmos">
+                    <div class="activity-status por-fazer">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <h4>Implementação de Árvore Binária</h4>
+                            <span class="activity-type trabalho">Trabalho</span>
+                        </div>
+                        <p class="activity-description">Implementar estrutura de dados árvore binária em Java com operações básicas</p>
+                        <div class="activity-meta">
+                            <span class="activity-group">
+                                <i class="fas fa-users"></i>
+                                Algoritmos
+                            </span>
+                            <span class="activity-date urgent">
+                                <i class="fas fa-calendar"></i>
+                                15/09/2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <button class="btn-icon" onclick="editActivity(1)" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="toggleActivityStatus(1)" title="Marcar como concluída">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteActivity(1)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Atividade 2 -->
+                <div class="activity-item" data-status="em-andamento" data-type="projeto" data-group="projeto">
+                    <div class="activity-status em-andamento">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <h4>Desenvolvimento do Sistema Web</h4>
+                            <span class="activity-type projeto">Projeto</span>
+                        </div>
+                        <p class="activity-description">Criar sistema web completo com frontend e backend</p>
+                        <div class="activity-meta">
+                            <span class="activity-group">
+                                <i class="fas fa-users"></i>
+                                Projeto Integrador
+                            </span>
+                            <span class="activity-date">
+                                <i class="fas fa-calendar"></i>
+                                30/09/2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <button class="btn-icon" onclick="editActivity(2)" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="toggleActivityStatus(2)" title="Marcar como concluída">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteActivity(2)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Atividade 3 -->
+                <div class="activity-item" data-status="por-fazer" data-type="prova" data-group="banco">
+                    <div class="activity-status por-fazer">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <h4>Prova de Banco de Dados</h4>
+                            <span class="activity-type prova">Prova</span>
+                        </div>
+                        <p class="activity-description">Prova sobre normalização, SQL avançado e transações</p>
+                        <div class="activity-meta">
+                            <span class="activity-group">
+                                <i class="fas fa-users"></i>
+                                Banco de Dados
+                            </span>
+                            <span class="activity-date urgent">
+                                <i class="fas fa-calendar"></i>
+                                14/09/2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <button class="btn-icon" onclick="editActivity(3)" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="toggleActivityStatus(3)" title="Marcar como concluída">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteActivity(3)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Atividade 4 -->
+                <div class="activity-item" data-status="concluida" data-type="leitura" data-group="calculo">
+                    <div class="activity-status concluida">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <h4>Leitura: Integrais Múltiplas</h4>
+                            <span class="activity-type leitura">Leitura</span>
+                        </div>
+                        <p class="activity-description">Estudar capítulo 15 do livro de Cálculo sobre integrais múltiplas</p>
+                        <div class="activity-meta">
+                            <span class="activity-group">
+                                <i class="fas fa-users"></i>
+                                Cálculo II
+                            </span>
+                            <span class="activity-date completed">
+                                <i class="fas fa-calendar"></i>
+                                10/09/2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <button class="btn-icon" onclick="editActivity(4)" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="toggleActivityStatus(4)" title="Reabrir">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteActivity(4)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Atividade 5 -->
+                <div class="activity-item" data-status="em-andamento" data-type="apresentacao" data-group="projeto">
+                    <div class="activity-status em-andamento">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <h4>Apresentação do Projeto</h4>
+                            <span class="activity-type apresentacao">Apresentação</span>
+                        </div>
+                        <p class="activity-description">Preparar slides e apresentação final do projeto integrador</p>
+                        <div class="activity-meta">
+                            <span class="activity-group">
+                                <i class="fas fa-users"></i>
+                                Projeto Integrador
+                            </span>
+                            <span class="activity-date">
+                                <i class="fas fa-calendar"></i>
+                                05/10/2024
+                            </span>
+                        </div>
+                    </div>
+                    <div class="activity-actions">
+                        <button class="btn-icon" onclick="editActivity(5)" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="toggleActivityStatus(5)" title="Marcar como concluída">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn-icon delete" onclick="deleteActivity(5)" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para adicionar/editar atividade -->
+    <div id="activity-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Nova Atividade</h3>
+                <button class="close-btn" onclick="closeActivityModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="activity-form" class="activity-form">
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="activity-title">Título da Atividade</label>
+                        <input type="text" id="activity-title" name="title" placeholder="Ex: Prova de Matemática" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="activity-type">Tipo da Atividade</label>
+                        <select id="activity-type" name="type" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="prova">Prova</option>
+                            <option value="trabalho">Trabalho</option>
+                            <option value="leitura">Leitura</option>
+                            <option value="projeto">Projeto</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="exercicio">Exercício</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="activity-description">Descrição/Resumo</label>
+                    <textarea id="activity-description" name="description" placeholder="Descreva os detalhes da atividade..." rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="activity-date">Data de Entrega</label>
+                        <input type="datetime-local" id="activity-date" name="dueDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="activity-group">Grupo Relacionado</label>
+                        <select id="activity-group" name="group" required>
+                            <option value="">Selecione o grupo</option>
+                            <option value="algoritmos">Algoritmos</option>
+                            <option value="banco">Banco de Dados</option>
+                            <option value="calculo">Cálculo II</option>
+                            <option value="projeto">Projeto Integrador</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="activity-status">Status</label>
+                    <select id="activity-status" name="status">
+                        <option value="por-fazer">Por fazer</option>
+                        <option value="em-andamento">Em andamento</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeActivityModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Atividade</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

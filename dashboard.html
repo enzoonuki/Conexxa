@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - App de Estudos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="dashboard-body">
+    <!-- Header com informações do usuário -->
+    <header class="header">
+        <div class="header-left">
+            <div class="user-info">
+                <div class="user-details">
+                    <div class="user-name">João Silva Santos</div>
+                    <div class="user-course">Engenharia de Software - 5º Semestre</div>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Container principal do dashboard -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <div class="dashboard-grid">
+            <!-- Card Grupos -->
+            <div class="dashboard-card" onclick="navigateTo('grupos')">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Grupos</h3>
+                    <p>Acesse seus grupos de estudo</p>
+                    <span class="card-count">4 grupos ativos</span>
+                </div>
+            </div>
+
+            <!-- Card Notificações -->
+            <div class="dashboard-card" onclick="navigateTo('notificacoes')">
+                <div class="card-icon notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </div>
+                <div class="card-content">
+                    <h3>Notificações</h3>
+                    <p>Avisos e convites</p>
+                    <span class="card-count">3 não lidas</span>
+                </div>
+            </div>
+
+            <!-- Card Atividades/Trabalhos -->
+            <div class="dashboard-card" onclick="navigateTo('atividades')">
+                <div class="card-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Atividades</h3>
+                    <p>Trabalhos e prazos</p>
+                    <span class="card-count">2 pendentes</span>
+                </div>
+            </div>
+
+            <!-- Card Materiais de Estudo -->
+            <div class="dashboard-card" onclick="navigateTo('materiais')">
+                <div class="card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Materiais</h3>
+                    <p>PDFs, links e arquivos</p>
+                    <span class="card-count">12 arquivos</span>
+                </div>
+            </div>
+
+            <!-- Card Adicionar Amigos -->
+            <div class="dashboard-card" onclick="navigateTo('adicionar-amigos')">
+                <div class="card-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Adicionar Amigos</h3>
+                    <p>Buscar e conectar</p>
+                    <span class="card-count">Expandir rede</span>
+                </div>
+            </div>
+
+            <!-- Card Amigos -->
+            <div class="dashboard-card" onclick="navigateTo('amigos')">
+                <div class="card-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Amigos</h3>
+                    <p>Seus contatos conectados</p>
+                    <span class="card-count">18 amigos</span>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Seção de atividades recentes -->
+        <section class="recent-activity">
+            <h3>Atividades Recentes</h3>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <i class="fas fa-comment"></i>
+                    <div class="activity-content">
+                        <p><strong>Maria Silva</strong> comentou no grupo "Algoritmos II"</p>
+                        <span>2 horas atrás</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-file-upload"></i>
+                    <div class="activity-content">
+                        <p><strong>Pedro Santos</strong> compartilhou um material em "Banco de Dados"</p>
+                        <span>5 horas atrás</span>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <i class="fas fa-calendar"></i>
+                    <div class="activity-content">
+                        <p>Lembrete: Entrega do projeto de <strong>Engenharia de Software</strong></p>
+                        <span>Amanhã</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
