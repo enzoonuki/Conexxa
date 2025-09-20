@@ -32,22 +32,18 @@ async function criarUsuario(dados) {
 
     // Validação de e-mail institucional
     if (!/.+@unisanta\.br$/.test(email) && !/.+@alunos\.unisanta\.br$/.test(email)) {
-    console.log('DEBUG criarUsuario - dados recebidos:', dados);
         throw new Error(`${email} não é um e-mail institucional válido!`);
     }
 
     // Validação da senha
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/.test(senha)) {
-    console.log('DEBUG criarUsuario - dados recebidos:', dados);
         throw new Error('A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.');
     }
 
     // Hash da senha
-    console.log('DEBUG criarUsuario - dados recebidos:', dados);
     const hashedPassword = await bcrypt.hash(senha, 10);
 
     return new Promise((resolve, reject) => {
-    console.log('DEBUG criarUsuario - dados recebidos:', dados);
         db.run(
             `INSERT INTO usuarios (nomeCompleto, email, curso, periodo, senha)
              VALUES (?, ?, ?, ?, ?)`,
