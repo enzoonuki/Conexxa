@@ -1,73 +1,72 @@
-const mongoose = require('mongoose');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const bcrypt = require('bcrypt');
 
-// Conectando ao banco de dados SQLite
-const db = new sqlite3.Database(path.resolve(`${process.cwd()}\\database\\conexxa.db`), (err) => {
+// Caminho para o arquivo do banco de dados
+const dbPath = path.resolve(__dirname, '../../../database/conexxa.db');
+
+// Conexão com o SQLite
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Erro ao conectar ao banco de dados:', err.message);
     } else {
-        console.log('Conectado ao banco de dados SQLite localizado em:', path.resolve(`${process.cwd()}\\database\\conexxa.db`));
+        console.log('Conectado ao banco SQLite em:', dbPath);
     }
 });
 
-// Definindo o modelo de usuário usando o Mongooseconst mongoose = require('mongoose');
-const usuarioSchema = new mongoose.Schema({
-    nomeCompleto: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    curso: { type: String, required: true },
-    periodo: { type: String, required: true },
-    senha: { type: String, required: true }
-});
+// Cria a tabela se não existir
+db.run(`
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nomeCompleto TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    curso TEXT NOT NULL,
+    periodo TEXT NOT NULL,
+    senha TEXT NOT NULL
+)
+`);
 
-const Usuario = mongoose.model('Usuario', usuarioSchema);
+async function criarUsuario(dados) {
+    console.log('DEBUG criarUsuario - dados recebidos:', dados);
+    const { nomeCompleto, email, curso, periodo, senha } = dados;
 
-// Função para adicionar um usuário
-const addUsuario = async (usuario) => {
-    const { nomeCompleto, email, curso, ins, periodo, senha } = usuario;
-
-    // Validação do e-mail
-    if (!/.+@unisanta\.br$/.test(email)) {
+    // Validação de e-mail institucional
+    if (!/.+@unisanta\.br$/.test(email) && !/.+@alunos\.unisanta\.br$/.test(email)) {
+    console.log('DEBUG criarUsuario - dados recebidos:', dados);
         throw new Error(`${email} não é um e-mail institucional válido!`);
     }
 
     // Validação da senha
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/.test(senha)) {
+    console.log('DEBUG criarUsuario - dados recebidos:', dados);
         throw new Error('A senha deve conter pelo menos uma letra maiúscula, uma minúscula e um número.');
     }
 
     // Hash da senha
+    console.log('DEBUG criarUsuario - dados recebidos:', dados);
     const hashedPassword = await bcrypt.hash(senha, 10);
 
-    // Inserindo o usuário no banco de dados SQLite
     return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO usuarios (nomeCompleto, email, curso, ins, periodo, senha) VALUES (?, ?, ?, ?, ?, ?)`, 
-            [nomeCompleto, email, curso, ins, periodo, hashedPassword], 
-            function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    // Inserindo o usuário no banco de dados MongoDB
-                    const novoUsuario = new Usuario({
-                        nomeCompleto,
-                        email,
-                        curso,
-                        ins,
-                        periodo,
-                        senha: hashedPassword
-                    });
-                    novoUsuario.save((err, usuarioSalvo) => {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve(usuarioSalvo);
-                        }
-                    });
-                }
-            });
+    console.log('DEBUG criarUsuario - dados recebidos:', dados);
+        db.run(
+            `INSERT INTO usuarios (nomeCompleto, email, curso, periodo, senha)
+             VALUES (?, ?, ?, ?, ?)`,
+            [nomeCompleto, email, curso, periodo, hashedPassword],
+            function (err) {
+                if (err) return reject(err);
+                resolve({ id: this.lastID, nomeCompleto, email, curso, periodo });
+            }
+        );
     });
-};
+}
 
-module.exports = {
-    addUsuario
-};
+function listarUsuarios() {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT id, nomeCompleto, email, curso, periodo FROM usuarios`, [], (err, rows) => {
+            if (err) return reject(err);
+            resolve(rows);
+        });
+    });
+}
+
+module.exports = { criarUsuario, listarUsuarios };
