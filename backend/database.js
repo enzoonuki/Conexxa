@@ -1,11 +1,15 @@
 const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
 
-const dbPath = path.join(__dirname, 'database', 'conexxa.db');
-const db = new sqlite3.Database(dbPath);
+const dbPath = "B:/download/TI/programa-VSCode/Conexxa/database/conexxa.db";
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error("Erro ao conectar ao banco:", err.message);
+  } else {
+    console.log("Conectado ao banco:", dbPath);
+  }
+});
 
 // Criação das tabelas
-// Usuários
 const createUsuarios = `
 CREATE TABLE IF NOT EXISTS usuarios (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,7 +18,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
 );
 `;
 
-// Grupos
 const createGrupos = `
 CREATE TABLE IF NOT EXISTS grupos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +25,6 @@ CREATE TABLE IF NOT EXISTS grupos (
 );
 `;
 
-// Mensagens
 const createMensagens = `
 CREATE TABLE IF NOT EXISTS mensagens (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -44,4 +46,7 @@ db.serialize(() => {
   console.log('Tabelas criadas com sucesso!');
 });
 
-db.close();
+// Não feche a conexão aqui!
+// db.close();
+
+module.exports = db;
