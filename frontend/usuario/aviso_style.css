@@ -1,0 +1,108 @@
+/* Estilos Gerais */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 20px;
+}
+
+/* Container Principal */
+.portal-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Mural de Avisos */
+.announcement-board {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.announcement-board h2 {
+    font-size: 1.4rem;
+    color: #1c1e21;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dddfe2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Card de Mensagem Individual */
+.message-card {
+    border-radius: 6px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #ccc; /* Borda padrão */
+    overflow: hidden; /* Garante que o conteúdo respeite o border-radius */
+    background-color: #f9f9f9;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.card-body {
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #fff;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-align: right;
+    background-color: #f9f9f9;
+}
+
+/* --- Estilos por Tipo de Mensagem --- */
+
+/* Mensagem de Texto Normal */
+.message-card.type-texto {
+    border-left-color: #007bff; /* Azul */
+}
+.message-card.type-texto .card-header {
+    background-color: #e7f3ff;
+    color: #004085;
+}
+
+/* Mensagem de Aviso com Destaque */
+.message-card.type-aviso {
+    border-left-color: #ffc107; /* Amarelo */
+}
+.message-card.type-aviso .card-header {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Mensagem com Imagem/Link */
+.message-card.type-imagem {
+    border-left-color: #28a745; /* Verde */
+}
+.message-card.type-imagem .card-header {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Estilo para imagens, caso o conteúdo seja um link de imagem */
+.card-body img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+}

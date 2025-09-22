@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat do Grupo</title>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h2>Chat do Grupo</h2>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <!-- Mensagens serão exibidas aqui -->
+    </div>
+    <form class="chat-form" id="chat-form">
+      <input type="text" id="mensagem" placeholder="Digite sua mensagem..." autocomplete="off" required>
+      <input type="file" id="arquivo" style="display:none;" multiple>
+      <button type="button" id="btn-arquivo">📎</button>
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+  <script>
+    // Exemplo de usuário logado
+    const usuarioAtual = 'meu_usuario';
+    // Lista de mensagens
+    const mensagens = [];
+
+    // WebSocket
+    const ws = new WebSocket('ws://localhost:3001');
+
+    ws.onopen = () => {
+      console.log('Conectado ao chat!');
+    };
+
+    ws.onerror = (err) => {
+      console.error('Erro na conexão WebSocket:', err);
+      alert('Erro na conexão WebSocket. Veja o console para detalhes.');
+    };
+
+    ws.onclose = (event) => {
+      console.warn('Conexão WebSocket fechada:', event);
+      alert('Conexão WebSocket fechada. Veja o console para detalhes.');
+    };
+
+    ws.onmessage = async (event) => {
+      let data = event.data;
+      if (data instanceof Blob) {
+        data = await data.text();
+      }
+      try {
+        const msg = JSON.parse(data);
+        mensagens.push(msg);
+        renderizarMensagens();
+      } catch (e) {
+        console.error('Mensagem recebida não é JSON válido:', data);
+      }
+    };
+
+    function renderizarMensagens() {
+      const chat = document.getElementById('chat-messages');
+      chat.innerHTML = '';
+      mensagens.forEach(msg => {
+        const div = document.createElement('div');
+        div.className = 'mensagem ' + (msg.usuario === usuarioAtual ? 'minha' : 'outra');
+        if (msg.tipo === 'texto') {
+          div.textContent = msg.texto;
+        } else if (msg.tipo === 'imagem') {
+          const img = document.createElement('img');
+          img.src = msg.url;
+          img.alt = msg.texto;
+          div.appendChild(img);
+        } else if (msg.tipo === 'arquivo') {
+          const a = document.createElement('a');
+          a.href = msg.url;
+          a.textContent = msg.texto;
+          a.target = '_blank';
+          div.appendChild(a);
+        }
+        chat.appendChild(div);
+      });
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    document.getElementById('chat-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const input = document.getElementById('mensagem');
+      if (input.value.trim()) {
+        const msg = { usuario: usuarioAtual, texto: input.value, tipo: 'texto' };
+        ws.send(JSON.stringify(msg));
+        input.value = '';
+      }
+    });
+
+    document.getElementById('btn-arquivo').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('arquivo').click();
+    });
+
+    document.getElementById('arquivo').addEventListener('change', function(e) {
+      Array.from(e.target.files).forEach(file => {
+        if (file.type.startsWith('image/')) {
+          const url = URL.createObjectURL(file);
+          const msg = { usuario: usuarioAtual, texto: file.name, tipo: 'imagem', url };
+          ws.send(JSON.stringify(msg));
+        } else {
+          const msg = { usuario: usuarioAtual, texto: file.name, tipo: 'arquivo', url: '#' };
+          ws.send(JSON.stringify(msg));
+        }
+      });
+      e.target.value = '';
+    });
+  </script>
+</body>
+</html>
