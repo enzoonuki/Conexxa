@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Envio de Mensagem</title>
+    <link rel="stylesheet" href="aviso_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <div class="admin-panel">
+        <div class="message-sender-card">
+            <h1><i class="fas fa-bullhorn"></i> Enviar Mensagem Geral</h1>
+            <p>Escreva a mensagem abaixo para enviá-la a um grupo de usuários.</p>
+            
+            <form id="message-form">
+                <div class="form-group">
+                    <label for="message-content">Conteúdo da Mensagem</label>
+                    <textarea 
+                        id="message-content" 
+                        name="conteudo"
+                        rows="6" 
+                        placeholder="Digite sua mensagem aqui..." 
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-options">
+                    <div class="form-group">
+                        <label for="message-type">Tipo</label>
+                        <select id="message-type" name="tipo" required>
+                            <option value="texto">Texto</option>
+                            <option value="aviso">Aviso Importante</option>
+                            <option value="imagem">Link de Imagem</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="group-id">ID do Grupo</label>
+                        <input 
+                            type="number" 
+                            id="group-id" 
+                            name="id_grupo" 
+                            placeholder="Ex: 1" 
+                            required 
+                        />
+                    </div>
+                </div>
+
+                <button type="submit" id="send-button">
+                    <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                </button>
+            </form>
+
+            <div id="status-message" class="status"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
